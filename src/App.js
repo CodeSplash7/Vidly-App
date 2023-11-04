@@ -1,4 +1,3 @@
-import "./App.css";
 import {
   createRoutesFromElements,
   createBrowserRouter,
@@ -15,7 +14,7 @@ import RootLayout from "./components/layouts/RootLayout.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
-      <Route path="home" element={<MoviesPage />} />
+      <Route path="movies" element={<MoviesPage />} />
     </Route>
   )
 );
