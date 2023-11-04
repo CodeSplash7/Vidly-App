@@ -6,10 +6,16 @@ import {
   RouterProvider
 } from "react-router-dom";
 
+// components
+import MoviesPage from "./components/MoviesPage/MoviesPage.jsx";
+
+//layouts
+import RootLayout from "./components/layouts/RootLayout.jsx";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<h1>Hello</h1>}>
-      <Route path="home" element={<p>Hi</p>} />
+    <Route path="/" element={<RootLayout />}>
+      <Route path="home" element={<MoviesPage />} />
     </Route>
   )
 );

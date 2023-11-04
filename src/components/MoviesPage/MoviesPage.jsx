@@ -5,7 +5,6 @@ import MovieTable from "./MovieTable"
 import MoviePagination from "./MoviePagination"
 
 function MoviesPage() {
-  console.log("init");
   return (
     <>
       <h2>Movies</h2>
