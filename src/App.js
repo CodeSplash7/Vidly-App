@@ -11,6 +11,7 @@ import MoviesPage from "./components/MoviesPage/MoviesPage.jsx";
 //layouts
 import RootLayout from "./components/layouts/RootLayout.jsx";
 
+// creating the router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>

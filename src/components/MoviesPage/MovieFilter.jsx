@@ -1,5 +1,5 @@
 function MovieFilter() {
-  return;
+  return <></>;
 }
 
 export default MovieFilter;

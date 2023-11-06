@@ -1,5 +1,5 @@
 function MoviePagination() {
-  return;
+  return <></>;
 }
 
 export default MoviePagination;

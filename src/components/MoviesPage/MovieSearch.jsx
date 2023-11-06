@@ -1,5 +1,5 @@
 function MovieSearch() {
-  return;
+  return <></>;
 }
 
 export default MovieSearch;

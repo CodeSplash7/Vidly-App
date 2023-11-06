@@ -7,13 +7,15 @@ import MovieSearch from "./MovieSearch";
 import MovieTable from "./MovieTable";
 import MoviePagination from "./MoviePagination";
 
-//services
+// services
 import http from "../../services/httpService.js";
 
 function MoviesPage() {
+  // state
   let [movies, setMovies] = useState([]);
   let [genres, setGenres] = useState([]);
 
+  // fetch data on mount
   useEffect(() => {
     async function fetchMoviesData() {
       const response = await http.get("movies");
@@ -27,6 +29,7 @@ function MoviesPage() {
     fetchMoviesData();
     fetchGenresData();
   }, []);
+
   return (
     <>
       <div className="movies-page">

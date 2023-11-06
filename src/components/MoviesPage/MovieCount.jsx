@@ -1,5 +1,5 @@
 function MovieCount() {
-  return;
+  return <></>;
 }
 
 export default MovieCount;

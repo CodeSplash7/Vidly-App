@@ -2,10 +2,12 @@ import axios from "axios";
 import config from "../config.json";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3001/",
+  baseURL: config.apiEndPoint,
   timeout: 4000,
   headers: {}
 });
+
+// Runs on every response from the server
 instance.interceptors.response.use(null, (error) => {
   console.log(error);
 });
