@@ -18,7 +18,7 @@ function MoviesPage() {
   // the column values are generated based on this
   let [tableColumns] = useState([
     { type: "value", content: "title" },
-    { type: "value", content: "genreId", label: "genre" },
+    { type: "value", content: "genre" },
     { type: "value", content: "stock" },
     { type: "value", content: "rating" },
     { type: "bonus", for: "buttons", contents: ["like", "delete"] }
@@ -40,7 +40,16 @@ function MoviesPage() {
   }, []);
 
   // transform genre every time movies change
-  useEffect(() => {}, [movies]);
+  useEffect(() => {
+    if (!movies.length > 0) return;
+    movies = movies.map((movie) => {
+      movie.data.genre = genres.find(
+        (genre) => genre.id === movie.data.genreId
+      ).name;
+      return movie;
+    });
+    setMovies(movies);
+  }, [genres]);
 
   return (
     <>

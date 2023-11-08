@@ -40,6 +40,7 @@ function MovieTableBodyRow({ movie, columns }) {
     <>
       <tr>
         {columns.map((column, i) => {
+          // console.log(column, movie.data.genre, movie.data);
           if (column.type === "value")
             return <ValueCell key={i} value={movie.data[column.content]} />;
           if (column.type === "bonus" && column.for === "buttons")
