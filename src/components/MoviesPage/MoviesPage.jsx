@@ -15,6 +15,15 @@ function MoviesPage() {
   let [movies, setMovies] = useState([]);
   let [genres, setGenres] = useState([]);
 
+  // the column values are generated based on this
+  let [tableColumns] = useState([
+    { type: "value", content: "title" },
+    { type: "value", content: "genreId", label: "genre" },
+    { type: "value", content: "stock" },
+    { type: "value", content: "rating" },
+    { type: "bonus", for: "buttons", contents: ["like", "delete"] }
+  ]);
+
   // fetch data on mount
   useEffect(() => {
     async function fetchMoviesData() {
@@ -29,6 +38,9 @@ function MoviesPage() {
     fetchMoviesData();
     fetchGenresData();
   }, []);
+
+  // transform genre every time movies change
+  useEffect(() => {}, [movies]);
 
   return (
     <>
@@ -48,7 +60,7 @@ function MoviesPage() {
             <MovieSearch />
           </div>
           <div className="movies-page__table">
-            <MovieTable />
+            <MovieTable movies={movies} tableColumns={tableColumns} />
           </div>
           <div className="movies-page__pagination">
             <MoviePagination />
