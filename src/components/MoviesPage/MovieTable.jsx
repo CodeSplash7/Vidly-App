@@ -16,12 +16,17 @@ function MovieTableHead({ columns }) {
         <tr>
           {columns.map((column, i) => {
             if (column.type !== "value") return;
-            return <th key={i}>{column.content}</th>;
+            return <th key={i}>{capitalize(column.content)}</th>;
           })}
         </tr>
       </thead>
     </>
   );
+
+  function capitalize(str) {
+    if (!str) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 }
 function MovieTableBody({ movies, columns }) {
   return (
