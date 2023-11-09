@@ -1,0 +1,22 @@
+.movie-table
+  @apply w-full h-fit flex flex-col
+
+  &__head
+    @apply w-full h-fit flex flex-row px-[32px] py-[10px] bg-[#{$color5}] rounded-t-[10px]
+
+  &__body
+    @apply w-full h-fit
+
+  &__body-row
+    @apply w-full h-fit px-[32px] py-[10px] flex
+
+  &__cell
+    @apply w-full h-fit text-[15px] text-[#d6d6d6]
+
+  &__cell--body
+    @apply font-[250]
+    &:first-child
+      @apply text-[#{$color4}] underline
+
+  &__cell--head
+    @apply font-[600]
