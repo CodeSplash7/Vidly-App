@@ -8,11 +8,7 @@ function RootLayout() {
         <div className="navbar">
           <Navbar />
         </div>
-        <div>
-          <div className="content-page">
-            <Outlet />
-          </div>
-        </div>
+        <Outlet />
       </div>
     </>
   );

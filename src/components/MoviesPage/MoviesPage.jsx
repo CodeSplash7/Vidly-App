@@ -53,7 +53,7 @@ function MoviesPage() {
 
   return (
     <>
-      <div className="movies-page">
+      <div className="movies-page content-page">
         <div className="movies-page__section--left">
           <h2 className="movies-page__title">Movies</h2>
           <div className="movies-page__filter">
@@ -61,14 +61,14 @@ function MoviesPage() {
           </div>
           <button className="movies-page__new-movie-button">New Movies</button>
         </div>
-        <div className="movie-page__section--right">
+        <div className="movies-page__section--right">
           <div className="movies-page__count">
             <MovieCount />
           </div>
           <div className="movies-page__search">
             <MovieSearch />
           </div>
-          <div className="movies-page__table">
+          <div className="movie-table">
             <MovieTable movies={movies} tableColumns={tableColumns} />
           </div>
           <div className="movies-page__pagination">

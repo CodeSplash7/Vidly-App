@@ -1,10 +1,8 @@
 function MovieTable({ movies, tableColumns }) {
   return (
     <>
-      <table>
-        <MovieTableHead columns={tableColumns} />
-        <MovieTableBody movies={movies} columns={tableColumns} />
-      </table>
+      <MovieTableHead columns={tableColumns} />
+      <MovieTableBody movies={movies} columns={tableColumns} />
     </>
   );
 }
@@ -12,14 +10,19 @@ function MovieTable({ movies, tableColumns }) {
 function MovieTableHead({ columns }) {
   return (
     <>
-      <thead>
-        <tr>
-          {columns.map((column, i) => {
-            if (column.type !== "value") return;
-            return <th key={i}>{capitalize(column.content)}</th>;
-          })}
-        </tr>
-      </thead>
+      <div className="movie-table__head">
+        {columns.map((column, i) => {
+          if (column.type === "value")
+            return (
+              <div className="movie-table__cell movie-table__cell--head" key={i}>
+                {capitalize(column.content)}
+              </div>
+            );
+
+          if (column.type === "bonus")
+            return <div className="movie-table__cell movie-table__cell--head" key={i}></div>;
+        })}
+      </div>
     </>
   );
 
@@ -31,11 +34,11 @@ function MovieTableHead({ columns }) {
 function MovieTableBody({ movies, columns }) {
   return (
     <>
-      <tbody>
+      <div className="movie-table__body">
         {movies.map((movie, i) => (
           <MovieTableBodyRow key={i} movie={movie} columns={columns} />
         ))}
-      </tbody>
+      </div>
     </>
   );
 }
@@ -43,32 +46,41 @@ function MovieTableBody({ movies, columns }) {
 function MovieTableBodyRow({ movie, columns }) {
   return (
     <>
-      <tr>
+      <div className="movie-table__body-row">
         {columns.map((column, i) => {
           // console.log(column, movie.data.genre, movie.data);
           if (column.type === "value")
-            return <ValueCell key={i} value={movie.data[column.content]} />;
+            return (
+              <div
+                className="movie-table__cell movie-table__cell--body"
+                key={i}
+              >
+                {movie.data[column.content]}
+              </div>
+            );
+
           if (column.type === "bonus" && column.for === "buttons")
-            return <ButtonsCell key={i} contents={column.contents} />;
+            return (
+              <div
+                key={i}
+                className="movie-table__cell movie-table__cell--body"
+              >
+                <ButtonsCell contents={column.contents} />;
+              </div>
+            );
         })}
-      </tr>
+      </div>
     </>
   );
 }
 
-function ValueCell({ value }) {
-  return <td>{value}</td>;
-}
-
 function ButtonsCell({ contents }) {
   return (
-    <td>
-      <div>
-        {contents.map((content, i) => (
-          <button key={i}>{content}</button>
-        ))}
-      </div>
-    </td>
+    <>
+      {contents.map((content, i) => (
+        <button key={i}>{content}</button>
+      ))}
+    </>
   );
 }
 
