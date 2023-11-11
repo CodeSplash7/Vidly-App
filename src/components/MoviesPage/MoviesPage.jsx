@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 
 // custom components
 import MovieFilter from "./MovieFilter";
@@ -9,6 +9,9 @@ import MoviePagination from "./MoviePagination";
 
 // services
 import http from "../../services/httpService.js";
+
+// context
+let MovieHandlersContext = createContext();
 
 function MoviesPage() {
   // state
@@ -53,31 +56,57 @@ function MoviesPage() {
 
   return (
     <>
-      <div className="movies-page content-page">
-        <div className="movies-page__section--left">
-          <h2 className="movies-page__title">Movies</h2>
-          <div className="movies-page__filter">
-            <MovieFilter />
+      <MovieHandlersContext.Provider value={{ handleLikeMovie }}>
+        <div className="movies-page content-page">
+          <div className="movies-page__section--left">
+            <h2 className="movies-page__title">Movies</h2>
+            <div className="movies-page__filter">
+              <MovieFilter />
+            </div>
+            <button className="movies-page__new-movie-button">
+              New Movies
+            </button>
           </div>
-          <button className="movies-page__new-movie-button">New Movies</button>
+          <div className="movies-page__section--right">
+            <div className="movies-page__count">
+              <MovieCount />
+            </div>
+            <div className="movies-page__search">
+              <MovieSearch />
+            </div>
+            <div className="movie-table">
+              <MovieTable movies={movies} tableColumns={tableColumns} />
+            </div>
+            <div className="movies-page__pagination">
+              <MoviePagination />
+            </div>
+          </div>
         </div>
-        <div className="movies-page__section--right">
-          <div className="movies-page__count">
-            <MovieCount />
-          </div>
-          <div className="movies-page__search">
-            <MovieSearch />
-          </div>
-          <div className="movie-table">
-            <MovieTable movies={movies} tableColumns={tableColumns} />
-          </div>
-          <div className="movies-page__pagination">
-            <MoviePagination />
-          </div>
-        </div>
-      </div>
+      </MovieHandlersContext.Provider>
     </>
   );
+
+  async function handleLikeMovie(movie) {
+    let previousMovies = movies;
+    let newMovies = movies.map((newMovie) => {
+      if (newMovie.id === movie.id) {
+        return movie;
+      }
+      return newMovie;
+    });
+    setMovies(newMovies);
+
+    try {
+      http.patch(`movies/${movie.id}`, movie);
+    } catch (err) {
+      setMovies(previousMovies);
+      console.log(err);
+    }
+  }
 }
 
 export default MoviesPage;
+
+export function useMovieHandlersContext() {
+  return useContext(MovieHandlersContext);
+}

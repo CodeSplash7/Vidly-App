@@ -11,7 +11,7 @@
     @apply w-full h-fit px-[32px] py-[10px] flex
 
   &__cell
-    @apply w-full h-fit text-[15px] text-[#d6d6d6]
+    @apply w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px]
 
   &__cell--body
     @apply font-[250]
@@ -20,3 +20,18 @@
 
   &__cell--head
     @apply font-[600]
+
+  &__like
+    @apply w-fit h-fit flex flex-col px-[20px] justify-center items-center
+
+    svg
+      @apply duration-200 transition-[fill,stroke]
+      @apply w-[21px] stroke-[1px] stroke-white fill-[#ffffff00]
+
+  &__like:hover
+    svg
+      @apply stroke-[#{$color3}]
+
+  &__like--active
+    svg
+      @apply stroke-[#{$color3}] fill-[#{$color3}]
