@@ -56,7 +56,9 @@ function MoviesPage() {
 
   return (
     <>
-      <MovieHandlersContext.Provider value={{ handleLikeMovie }}>
+      <MovieHandlersContext.Provider
+        value={{ handleLikeMovie, handleDeleteMovie }}
+      >
         <div className="movies-page content-page">
           <div className="movies-page__section--left">
             <h2 className="movies-page__title">Movies</h2>
@@ -98,6 +100,20 @@ function MoviesPage() {
 
     try {
       http.patch(`movies/${movie.id}`, movie);
+    } catch (err) {
+      setMovies(previousMovies);
+      console.log(err);
+    }
+  }
+
+  async function handleDeleteMovie(movie) {
+    let previousMovies = movies;
+    let newMovies = movies.filter((newMovie) => newMovie.id !== movie.id);
+    console.log(newMovies);
+    setMovies(newMovies);
+
+    try {
+      http.delete(`movies/${movie.id}`);
     } catch (err) {
       setMovies(previousMovies);
       console.log(err);

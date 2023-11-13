@@ -14,7 +14,7 @@
     @apply w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px]
 
   &__cell--body
-    @apply font-[250]
+    @apply font-[250] h-full
     &:first-child
       @apply text-[#{$color4}] underline
 
@@ -25,7 +25,7 @@
     @apply w-fit h-fit flex flex-col px-[20px] justify-center items-center
 
     svg
-      @apply duration-200 transition-[fill,stroke]
+      @apply duration-150 transition-[fill,stroke]
       @apply w-[21px] stroke-[1px] stroke-white fill-[#ffffff00]
 
   &__like:hover
@@ -35,3 +35,8 @@
   &__like--active
     svg
       @apply stroke-[#{$color3}] fill-[#{$color3}]
+  &__delete
+    @apply duration-150 transition-[background] w-[72px] h-[30px] rounded-[8px] px-[12px] py-[6px] bg-[#{$color3}] text-[15px] text-white flex justify-center items-center
+
+  &__delete:hover
+    @apply bg-[#9C2140]
