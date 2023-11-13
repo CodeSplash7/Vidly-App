@@ -44,7 +44,10 @@ function MoviesPage() {
 
   // transform genre every time movies change
   useEffect(() => {
+    // if movies array in empty then stop
     if (!movies.length > 0) return;
+
+    // else transform the genres
     movies = movies.map((movie) => {
       movie.data.genre = genres.find(
         (genre) => genre.id === movie.data.genreId
@@ -101,6 +104,7 @@ function MoviesPage() {
     try {
       http.patch(`movies/${movie.id}`, movie);
     } catch (err) {
+      // if an error occurs then reset the values
       setMovies(previousMovies);
       console.log(err);
     }
@@ -115,6 +119,7 @@ function MoviesPage() {
     try {
       http.delete(`movies/${movie.id}`);
     } catch (err) {
+      // if an error occurs then reset the values
       setMovies(previousMovies);
       console.log(err);
     }

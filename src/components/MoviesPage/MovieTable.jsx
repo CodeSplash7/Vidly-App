@@ -1,7 +1,6 @@
-import http from "../../services/httpService.js";
 import { useMovieHandlersContext } from "./MoviesPage.jsx";
 
-function MovieTable({ movies, tableColumns }) {
+export default function MovieTable({ movies, tableColumns }) {
   return (
     <>
       <MovieTableHead columns={tableColumns} />
@@ -15,6 +14,7 @@ function MovieTableHead({ columns }) {
     <>
       <div className="movie-table__head">
         {columns.map((column, i) => {
+          // if the cell is for a value
           if (column.type === "value")
             return (
               <div
@@ -25,6 +25,7 @@ function MovieTableHead({ columns }) {
               </div>
             );
 
+          // if the cell is for empty space for buttons in the body
           if (column.type === "bonus")
             return (
               <div
@@ -36,7 +37,7 @@ function MovieTableHead({ columns }) {
       </div>
     </>
   );
-
+  // e.g randomstring -> Randomstring
   function capitalize(str) {
     if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -59,6 +60,7 @@ function MovieTableBodyRow({ movie, columns }) {
     <>
       <div className="movie-table__body-row">
         {columns.map((column, i) => {
+          // if the cell is on the column of value
           if (column.type === "value")
             return (
               <div
@@ -69,6 +71,7 @@ function MovieTableBodyRow({ movie, columns }) {
               </div>
             );
 
+          // if the cell is on the column of bonus used for buttons
           if (column.type === "bonus" && column.for === "buttons")
             return (
               <div
@@ -88,9 +91,11 @@ function ButtonsCell({ contents, movie }) {
   return (
     <>
       {contents.map((content, i) => {
+        // if the button is for like
         if (content === "like") {
           return <LikeMovie key={i} movie={movie} />;
         }
+        // if the button is for delete
         if (content === "delete") {
           return <DeleteMovie key={i} movie={movie} />;
         }
@@ -139,5 +144,3 @@ function DeleteMovie({ movie }) {
     </>
   );
 }
-
-export default MovieTable;
