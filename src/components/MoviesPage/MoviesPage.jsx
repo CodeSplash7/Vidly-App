@@ -15,8 +15,11 @@ let MovieHandlersContext = createContext();
 
 function MoviesPage() {
   // state
+  let [divisionLength, setDivisionLength] = useState(4);
+  let [currentDivision, setCurrentDivision] = useState(3);
   let [movies, setMovies] = useState([]);
   let [genres, setGenres] = useState([]);
+  let [divisions, setDivisions] = useState([]);
 
   // the column values are generated based on this
   let [tableColumns] = useState([
@@ -42,21 +45,11 @@ function MoviesPage() {
     fetchGenresData();
   }, []);
 
-  // transform genre every time movies change
   useEffect(() => {
-    // if movies array in empty then stop
-    if (!movies.length > 0) return;
-
-    // else transform the genres
-    movies = movies.map((movie) => {
-      movie.data.genre = genres.find(
-        (genre) => genre.id === movie.data.genreId
-      ).name;
-      return movie;
-    });
-    setMovies(movies);
+    getGenrePropertyForMovies();
+    divideMovies();
   }, [genres]);
-
+  console.log(divisions[currentDivision - 1]);
   return (
     <>
       <MovieHandlersContext.Provider
@@ -80,7 +73,7 @@ function MoviesPage() {
               <MovieSearch />
             </div>
             <div className="movie-table">
-              <MovieTable movies={movies} tableColumns={tableColumns} />
+              <MovieTable movies={getCurrentDivisionContent()} tableColumns={tableColumns} />
             </div>
             <div className="movies-page__pagination">
               <MoviePagination />
@@ -90,6 +83,46 @@ function MoviesPage() {
       </MovieHandlersContext.Provider>
     </>
   );
+
+  function getCurrentDivisionContent() {
+    if (divisions.length > 0) return divisions[currentDivision - 1];
+    return [];
+  }
+
+  // transform genre every for movies
+  function getGenrePropertyForMovies() {
+    // if movies array in empty then stop
+    if (!movies.length > 0) return;
+
+    // else transform the genres
+    movies = movies.map((movie) => {
+      movie.data.genre = genres.find(
+        (genre) => genre.id === movie.data.genreId
+      ).name;
+      return movie;
+    });
+    setMovies(movies);
+  }
+
+  function divideMovies() {
+    // check if the arguments are valid
+    if (
+      !Array.isArray(movies) ||
+      !Number.isInteger(divisionLength) ||
+      divisionLength < 1
+    ) {
+      return "Invalid arguments";
+    }
+    // create an empty array to store the result
+    let divisions = [];
+    // loop through the array and slice it into subarrays of divisionLength
+    for (let i = 0; i < movies.length; i += divisionLength) {
+      let subarray = movies.slice(i, i + divisionLength);
+      divisions.push(subarray);
+    }
+    // set the state of divisions
+    setDivisions(divisions);
+  }
 
   async function handleLikeMovie(movie) {
     let previousMovies = movies;
