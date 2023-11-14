@@ -49,7 +49,6 @@ function MoviesPage() {
     getGenrePropertyForMovies();
     divideMovies();
   }, [genres]);
-  console.log(divisions[currentDivision - 1]);
   return (
     <>
       <MovieHandlersContext.Provider
@@ -73,10 +72,19 @@ function MoviesPage() {
               <MovieSearch />
             </div>
             <div className="movie-table">
-              <MovieTable movies={getCurrentDivisionContent()} tableColumns={tableColumns} />
+              <MovieTable
+                movies={getCurrentDivisionContent()}
+                tableColumns={tableColumns}
+              />
             </div>
             <div className="movies-page__pagination">
-              <MoviePagination />
+              <MoviePagination
+                pages={divisions.length}
+                currentPage={{
+                  currentPage: currentDivision,
+                  setCurrentPage: setCurrentDivision
+                }}
+              />
             </div>
           </div>
         </div>
