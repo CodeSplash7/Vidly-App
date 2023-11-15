@@ -16,7 +16,7 @@ let MovieHandlersContext = createContext();
 function MoviesPage() {
   // state
   let [divisionLength, setDivisionLength] = useState(4);
-  let [currentDivision, setCurrentDivision] = useState(3);
+  let [currentDivision, setCurrentDivision] = useState(1);
   let [movies, setMovies] = useState([]);
   let [genres, setGenres] = useState([]);
   let [divisions, setDivisions] = useState([]);
@@ -117,7 +117,8 @@ function MoviesPage() {
     if (
       !Array.isArray(movies) ||
       !Number.isInteger(divisionLength) ||
-      divisionLength < 1
+      divisionLength < 1 ||
+      movies.length < 1
     ) {
       return "Invalid arguments";
     }
@@ -128,6 +129,12 @@ function MoviesPage() {
       let subarray = movies.slice(i, i + divisionLength);
       divisions.push(subarray);
     }
+
+    let lastDivision = divisions[divisions.length - 1];
+    while (lastDivision.length < divisionLength) {
+      lastDivision.push(null);
+    }
+
     // set the state of divisions
     setDivisions(divisions);
   }

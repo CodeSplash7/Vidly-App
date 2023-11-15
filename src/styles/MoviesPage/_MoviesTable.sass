@@ -10,6 +10,9 @@
   &__body-row
     @apply w-full h-fit px-[32px] py-[10px] flex
 
+  &__body-row--invisible
+    @apply [visibility:hidden]
+
   &__cell
     @apply w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px]
 
@@ -35,7 +38,7 @@
   &__like--active
     svg
       @apply stroke-[#{$color3}] fill-[#{$color3}]
-      
+
   &__delete
     @apply duration-150 transition-[background] w-[72px] h-[30px] rounded-[8px] px-[12px] py-[6px] bg-[#{$color3}] text-[15px] text-white flex justify-center items-center
 

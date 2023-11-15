@@ -48,17 +48,28 @@ function MovieTableBody({ movies, columns }) {
     <>
       <div className="movie-table__body">
         {movies.map((movie, i) => {
-          return <MovieTableBodyRow key={i} movie={movie} columns={columns} />;
+          return (
+            <MovieTableBodyRow
+              key={i}
+              movie={movie !== null ? movie : movies[0]}
+              columns={columns}
+              invisible={movie !== null ? false : true}
+            />
+          );
         })}
       </div>
     </>
   );
 }
 
-function MovieTableBodyRow({ movie, columns }) {
+function MovieTableBodyRow({ movie, columns, invisible }) {
   return (
     <>
-      <div className="movie-table__body-row">
+      <div
+        className={`movie-table__body-row ${
+          invisible ? "movie-table__body-row--invisible" : ""
+        }`}
+      >
         {columns.map((column, i) => {
           // if the cell is on the column of value
           if (column.type === "value")
