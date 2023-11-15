@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useMovieHandlersContext } from "./MoviesPage.jsx";
 
 export default function MovieTable({ movies, tableColumns }) {
@@ -44,6 +45,9 @@ function MovieTableHead({ columns }) {
   }
 }
 function MovieTableBody({ movies, columns }) {
+  let exampleRow = Object.assign({}, movies[0]);
+  if (movies.length > 0) exampleRow.liked = false;
+
   return (
     <>
       <div className="movie-table__body">
@@ -51,7 +55,7 @@ function MovieTableBody({ movies, columns }) {
           return (
             <MovieTableBodyRow
               key={i}
-              movie={movie !== null ? movie : movies[0]}
+              movie={movie !== null ? movie : exampleRow}
               columns={columns}
               invisible={movie !== null ? false : true}
             />

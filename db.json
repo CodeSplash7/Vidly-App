@@ -20,7 +20,7 @@
         "stock": 2,
         "genre": "horror"
       },
-      "liked": false
+      "liked": true
     },
     {
       "id": 3,
@@ -31,22 +31,23 @@
         "stock": 3,
         "genre": "action"
       },
-      "liked": false
+      "liked": true
     },
     {
       "id": 4,
       "data": {
-        "title": "Movie2",
+        "title": "Movie4",
         "genreId": 3,
         "rating": 6,
-        "stock": 4
+        "stock": 4,
+        "genre": "horror"
       },
-      "liked": false
+      "liked": true
     },
     {
       "id": 5,
       "data": {
-        "title": "Movie6",
+        "title": "Movie5",
         "genreId": 1,
         "rating": 5,
         "stock": 3,
