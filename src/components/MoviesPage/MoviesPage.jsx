@@ -49,6 +49,11 @@ function MoviesPage() {
     getGenrePropertyForMovies();
     divideMovies();
   }, [genres]);
+
+  useEffect(() => {
+    divideMovies();
+  }, [movies]);
+
   return (
     <>
       <MovieHandlersContext.Provider
@@ -93,8 +98,21 @@ function MoviesPage() {
   );
 
   function getCurrentDivisionContent() {
-    if (divisions.length > 0) return divisions[currentDivision - 1];
-    return [];
+    if (divisions.length < 1) return [];
+
+    let result;
+
+    let i = 0;
+    while (result === undefined) {
+      i++;
+      result = divisions[currentDivision - i];
+    }
+
+    if (i > 1) {
+      setCurrentDivision(currentDivision - 1);
+    }
+
+    return result;
   }
 
   // transform genre every for movies
@@ -117,11 +135,15 @@ function MoviesPage() {
     if (
       !Array.isArray(movies) ||
       !Number.isInteger(divisionLength) ||
-      divisionLength < 1 ||
-      movies.length < 1
+      divisionLength < 1
     ) {
       return "Invalid arguments";
     }
+    if (movies.length < 1) {
+      setDivisions([[]])
+      return 
+    }
+
     // create an empty array to store the result
     let divisions = [];
     // loop through the array and slice it into subarrays of divisionLength
@@ -161,7 +183,6 @@ function MoviesPage() {
   async function handleDeleteMovie(movie) {
     let previousMovies = movies;
     let newMovies = movies.filter((newMovie) => newMovie.id !== movie.id);
-    console.log(newMovies);
     setMovies(newMovies);
 
     try {
