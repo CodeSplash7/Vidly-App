@@ -4,11 +4,11 @@
       "id": 1,
       "data": {
         "title": "Movie1",
-        "genreId": 3,
-        "rating": 6,
-        "stock": 2
+        "genreId": 2,
+        "rating": 8,
+        "stock": 4
       },
-      "liked": false
+      "liked": true
     },
     {
       "id": 2,

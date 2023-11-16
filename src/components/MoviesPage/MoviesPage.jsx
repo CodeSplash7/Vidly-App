@@ -76,9 +76,9 @@ function MoviesPage() {
             </button>
           </div>
           <div className="movies-page__section--right">
-            <div className="movies-page__count">
-              <MovieCount />
-            </div>
+            <p className="movies-page__count">
+              <MovieCount moviesCount={movies.length} />
+            </p>
             <div className="movies-page__search">
               <MovieSearch />
             </div>
