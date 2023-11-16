@@ -46,7 +46,6 @@ function MovieTableHead({ columns }) {
 }
 function MovieTableBody({ movies, columns }) {
   let exampleRow = Object.assign({}, movies[0]);
-  console.log(exampleRow)
   if (movies.length > 0) exampleRow.liked = false;
 
   return (

@@ -1,5 +1,106 @@
 {
-  "movies": [],
+  "movies": [
+    {
+      "id": 1,
+      "data": {
+        "title": "Movie1",
+        "genreId": 3,
+        "rating": 6,
+        "stock": 2
+      },
+      "liked": false
+    },
+    {
+      "id": 2,
+      "data": {
+        "title": "Movie2",
+        "genreId": 2,
+        "rating": 8,
+        "stock": 4
+      },
+      "liked": true
+    },
+    {
+      "id": 3,
+      "data": {
+        "title": "Movie3",
+        "genreId": 1,
+        "rating": 7,
+        "stock": 3
+      },
+      "liked": false
+    },
+    {
+      "id": 4,
+      "data": {
+        "title": "Movie4",
+        "genreId": 4,
+        "rating": 9,
+        "stock": 5
+      },
+      "liked": true
+    },
+    {
+      "id": 5,
+      "data": {
+        "title": "Movie5",
+        "genreId": 2,
+        "rating": 5,
+        "stock": 1
+      },
+      "liked": false
+    },
+    {
+      "id": 6,
+      "data": {
+        "title": "Movie6",
+        "genreId": 1,
+        "rating": 4,
+        "stock": 0
+      },
+      "liked": false
+    },
+    {
+      "id": 7,
+      "data": {
+        "title": "Movie7",
+        "genreId": 2,
+        "rating": 10,
+        "stock": 6
+      },
+      "liked": true
+    },
+    {
+      "id": 8,
+      "data": {
+        "title": "Movie8",
+        "genreId": 1,
+        "rating": 3,
+        "stock": 0
+      },
+      "liked": false
+    },
+    {
+      "id": 9,
+      "data": {
+        "title": "Movie9",
+        "genreId": 4,
+        "rating": 8,
+        "stock": 4
+      },
+      "liked": true
+    },
+    {
+      "id": 10,
+      "data": {
+        "title": "Movie10",
+        "genreId": 3,
+        "rating": 6,
+        "stock": 2
+      },
+      "liked": false
+    }
+  ],
   "genres": [
     {
       "id": 1,

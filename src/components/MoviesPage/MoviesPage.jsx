@@ -84,7 +84,11 @@ function MoviesPage() {
             </div>
             <div className="movies-page__pagination">
               <MoviePagination
-                pages={divisions.length}
+                pages={
+                  divisions.length > 0 && divisions[0].length > 0
+                    ? divisions.length
+                    : 0
+                }
                 currentPage={{
                   currentPage: currentDivision,
                   setCurrentPage: setCurrentDivision
@@ -140,8 +144,8 @@ function MoviesPage() {
       return "Invalid arguments";
     }
     if (movies.length < 1) {
-      setDivisions([[]])
-      return 
+      setDivisions([[]]);
+      return;
     }
 
     // create an empty array to store the result

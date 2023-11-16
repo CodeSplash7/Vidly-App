@@ -3,6 +3,7 @@ function MoviePagination({
   currentPage: { currentPage, setCurrentPage }
 }) {
   let buttons = [];
+  if (pages == 0) return;
   for (let i = 1; i <= pages; i++) {
     buttons.push(
       <button
