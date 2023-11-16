@@ -19,7 +19,10 @@ function MoviesPage() {
   let [divisionLength, setDivisionLength] = useState(4);
   // the index of the current division to display but +1 to make sense
   let [currentDivision, setCurrentDivision] = useState(1);
+  // all of the movies fetched from the database
   let [movies, setMovies] = useState([]);
+  // the movies that have been filtered/selected to be shown in the table
+  let [selectedMovies, setSelectedMovies] = useState([]);
   let [genres, setGenres] = useState([]);
   // groups for the movies
   let [divisions, setDivisions] = useState([]);
@@ -57,6 +60,7 @@ function MoviesPage() {
   // separate the movies into divisions
   // each divisions is an array with the max length equal to divisionLength
   useEffect(() => {
+    setSelectedMovies(movies);
     divideMovies();
   }, [movies]);
 
@@ -77,7 +81,7 @@ function MoviesPage() {
           </div>
           <div className="movies-page__section--right">
             <p className="movies-page__count">
-              <MovieCount moviesCount={movies.length} />
+              <MovieCount moviesCount={selectedMovies.length} />
             </p>
             <div className="movies-page__search">
               <MovieSearch />
@@ -157,7 +161,7 @@ function MoviesPage() {
     }
     // if all movies are deleted than don't do all the code below but return the divisions with one empty division so the code may work properly
     // as the movies are generated from a list a empty one renders no movies
-    if (movies.length < 1) {
+    if (selectedMovies.length < 1) {
       setDivisions([[]]);
       return;
     }
@@ -165,8 +169,8 @@ function MoviesPage() {
     // create an empty array to store the result
     let divisions = [];
     // loop through the array and slice it into subarrays of divisionLength
-    for (let i = 0; i < movies.length; i += divisionLength) {
-      let subarray = movies.slice(i, i + divisionLength);
+    for (let i = 0; i < selectedMovies.length; i += divisionLength) {
+      let subarray = selectedMovies.slice(i, i + divisionLength);
       divisions.push(subarray);
     }
 
