@@ -26,6 +26,7 @@ function MoviesPage() {
   let [genres, setGenres] = useState([]);
   // groups for the movies
   let [divisions, setDivisions] = useState([]);
+  let [filter, setFilter] = useState("all");
 
   // "template" for the table
   let [tableColumns] = useState([
@@ -57,12 +58,15 @@ function MoviesPage() {
     getGenrePropertyForMovies();
   }, [genres]);
 
+  useEffect(() => {
+    filterMovies(filter);
+  }, [movies]);
+
   // separate the movies into divisions
   // each divisions is an array with the max length equal to divisionLength
   useEffect(() => {
-    setSelectedMovies(movies);
     divideMovies();
-  }, [movies]);
+  }, [selectedMovies]);
 
   return (
     <>
@@ -73,7 +77,7 @@ function MoviesPage() {
           <div className="movies-page__section--left">
             <h2 className="movies-page__title">Movies</h2>
             <div className="movies-page__filter">
-              <MovieFilter />
+              <MovieFilter genres={genres} filterMovies={filterMovies} />
             </div>
             <button className="movies-page__new-movie-button">
               New Movies
@@ -110,6 +114,16 @@ function MoviesPage() {
       </MovieHandlersContext.Provider>
     </>
   );
+
+  function filterMovies(genre) {
+    if (genre === "all") {
+      setSelectedMovies(movies);
+      return;
+    }
+    let filtered = movies.filter((movie) => movie.data.genre === genre);
+    setSelectedMovies(filtered);
+    setFilter(genre);
+  }
 
   // returns the movies that correspond to the currentDivision from the state
   // if that division is out of movies it return the previous one

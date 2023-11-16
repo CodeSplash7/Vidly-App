@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMovieHandlersContext } from "./MoviesPage.jsx";
+import { capitalize } from "../../helperFunctions.js";
 
 export default function MovieTable({ movies, tableColumns }) {
   return (
@@ -38,11 +39,6 @@ function MovieTableHead({ columns }) {
       </div>
     </>
   );
-  // e.g "randomstring" -> "Randomstring"
-  function capitalize(str) {
-    if (!str) return str;
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
 }
 function MovieTableBody({ movies, columns }) {
   let exampleRow = Object.assign({}, movies[0]);
