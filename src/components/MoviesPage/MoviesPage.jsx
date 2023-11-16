@@ -10,18 +10,21 @@ import MoviePagination from "./MoviePagination";
 // services
 import http from "../../services/httpService.js";
 
-// context
+// context for the access of the movie handlers in this component
 let MovieHandlersContext = createContext();
 
 function MoviesPage() {
   // state
+  // the number of movies per division
   let [divisionLength, setDivisionLength] = useState(4);
+  // the index of the current division to display but +1 to make sense
   let [currentDivision, setCurrentDivision] = useState(1);
   let [movies, setMovies] = useState([]);
   let [genres, setGenres] = useState([]);
+  // groups for the movies
   let [divisions, setDivisions] = useState([]);
 
-  // the column values are generated based on this
+  // "template" for the table
   let [tableColumns] = useState([
     { type: "value", content: "title" },
     { type: "value", content: "genre" },
@@ -45,11 +48,14 @@ function MoviesPage() {
     fetchGenresData();
   }, []);
 
+  // transform the genre for all movies
+  // generate genre property from the genreId property of movies
   useEffect(() => {
     getGenrePropertyForMovies();
-    divideMovies();
   }, [genres]);
 
+  // separate the movies into divisions
+  // each divisions is an array with the max length equal to divisionLength
   useEffect(() => {
     divideMovies();
   }, [movies]);
@@ -101,17 +107,22 @@ function MoviesPage() {
     </>
   );
 
+  // returns the movies that correspond to the currentDivision from the state
+  // if that division is out of movies it return the previous one
   function getCurrentDivisionContent() {
     if (divisions.length < 1) return [];
 
     let result;
 
     let i = 0;
+
+    // look backwards from the currentDivision until a *defined division is found
     while (result === undefined) {
       i++;
       result = divisions[currentDivision - i];
     }
 
+    // if the currentDivision is empty reset the state to the one that was found above
     if (i > 1) {
       setCurrentDivision(currentDivision - 1);
     }
@@ -120,18 +131,19 @@ function MoviesPage() {
   }
 
   // transform genre every for movies
+  // add genre property to movies with the correponding genre name from the genres array based the genreId property
   function getGenrePropertyForMovies() {
-    // if movies array in empty then stop
+    // if movies array is empty then stop
     if (!movies.length > 0) return;
 
     // else transform the genres
-    movies = movies.map((movie) => {
+    let newMovies = movies.map((movie) => {
       movie.data.genre = genres.find(
         (genre) => genre.id === movie.data.genreId
       ).name;
       return movie;
     });
-    setMovies(movies);
+    setMovies(newMovies);
   }
 
   function divideMovies() {
@@ -141,8 +153,10 @@ function MoviesPage() {
       !Number.isInteger(divisionLength) ||
       divisionLength < 1
     ) {
-      return "Invalid arguments";
+      return new Error("Invalid arguments");
     }
+    // if all movies are deleted than don't do all the code below but return the divisions with one empty division so the code may work properly
+    // as the movies are generated from a list a empty one renders no movies
     if (movies.length < 1) {
       setDivisions([[]]);
       return;
@@ -167,6 +181,7 @@ function MoviesPage() {
 
   async function handleLikeMovie(movie) {
     let previousMovies = movies;
+    // new movies with the one liked having the prperty changed accordingly
     let newMovies = movies.map((newMovie) => {
       if (newMovie.id === movie.id) {
         return movie;
@@ -186,6 +201,7 @@ function MoviesPage() {
 
   async function handleDeleteMovie(movie) {
     let previousMovies = movies;
+    // new movies with the movie to be deleted missing
     let newMovies = movies.filter((newMovie) => newMovie.id !== movie.id);
     setMovies(newMovies);
 

@@ -38,7 +38,7 @@ function MovieTableHead({ columns }) {
       </div>
     </>
   );
-  // e.g randomstring -> Randomstring
+  // e.g "randomstring" -> "Randomstring"
   function capitalize(str) {
     if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -55,9 +55,12 @@ function MovieTableBody({ movies, columns }) {
           return (
             <MovieTableBodyRow
               key={i}
+              // if the movie of this row is null it means it is there to occupy the space for one
+              // so return a row similar to the other ones to occupy the same space
               movie={movie !== null ? movie : exampleRow}
-              columns={columns}
+              // make the movie be invisible if it is null for the reason explained above
               invisible={movie !== null ? false : true}
+              columns={columns}
             />
           );
         })}
