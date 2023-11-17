@@ -26,7 +26,10 @@ function MoviesPage() {
   let [genres, setGenres] = useState([]);
   // groups for the movies
   let [divisions, setDivisions] = useState([]);
-  let [filter, setFilter] = useState("all");
+  // this is used for filtering genres and no filter is added
+  let [valueOfNoFilter] = useState("all");
+  // filters the movies by the genre, "all" meaning no filter
+  let [filter, setFilter] = useState(valueOfNoFilter);
 
   // "template" for the table
   let [tableColumns] = useState([
@@ -58,6 +61,7 @@ function MoviesPage() {
     getGenrePropertyForMovies();
   }, [genres]);
 
+  // filter the selectedMovies by the state variable of filter
   useEffect(() => {
     filterMovies(filter);
   }, [movies]);
@@ -77,7 +81,12 @@ function MoviesPage() {
           <div className="movies-page__section--left">
             <h2 className="movies-page__title">Movies</h2>
             <div className="movies-page__filter">
-              <MovieFilter genres={genres} filterMovies={filterMovies} />
+              <MovieFilter
+                currentFilter={filter}
+                genres={genres}
+                filterMovies={filterMovies}
+                valueOfNoFilter={valueOfNoFilter}
+              />
             </div>
             <button className="movies-page__new-movie-button">
               New Movies
@@ -115,9 +124,12 @@ function MoviesPage() {
     </>
   );
 
+  // changes the selectedMovies to the result and the filter to the genre
+  // if passed "all" it doesnt filter anything
   function filterMovies(genre) {
-    if (genre === "all") {
+    if (genre === valueOfNoFilter) {
       setSelectedMovies(movies);
+      setFilter(genre);
       return;
     }
     let filtered = movies.filter((movie) => movie.data.genre === genre);
