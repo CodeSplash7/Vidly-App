@@ -26,6 +26,7 @@ function MoviesPage() {
   let [movies, setMovies] = useState([]);
   // the movies that have been filtered/selected to be shown in the table
   let [selectedMovies, setSelectedMovies] = useState([]);
+  // array of genre objects
   let [genres, setGenres] = useState([]);
   // groups for the movies
   let [divisions, setDivisions] = useState([]);
