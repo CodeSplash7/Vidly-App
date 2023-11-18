@@ -33,6 +33,7 @@ function MoviesPage() {
   let [valueOfNoFilter] = useState("all");
   // filters the movies by the genre, "all" meaning no filter
   let [filter, setFilter] = useState(valueOfNoFilter);
+  // filters the movies by the title, the value of this variable changes the selectedMovies
   let [searchInput, setSearchInput] = useState("");
 
   // "template" for the table
@@ -67,19 +68,32 @@ function MoviesPage() {
 
   // filter the selectedMovies by the state variable of filter
   useEffect(() => {
-    filterMovies(filter);
+    filterMoviesByGenre(filter);
     // if the user isnt using a real filter
-    if (filter === valueOfNoFilter) {
-      // setSelectedMovie(the ones showing) to the movies mathing the search, if no search all movies are returned
-      setSelectedMovies(searchMovies(movies, searchInput));
-    }
+    if (filter === valueOfNoFilter)
+      // set selectedMovies(the ones showing) to the movies matching the search, if no search all movies are returned
+      filterMoviesBySearch(searchInput);
   }, [movies]);
+
+  useEffect(() => {
+    if (filter !== valueOfNoFilter) {
+      filterMoviesByGenre(filter);
+      setSearchInput("");
+    }
+  }, [filter]);
 
   // separate the movies into divisions
   // each divisions is an array with the max length equal to divisionLength
   useEffect(() => {
     divideMovies();
   }, [selectedMovies]);
+
+  useEffect(() => {
+    // if the hook was activated because the useEffect hook for the filter reseted it then stop
+    if (searchInput === "" && filter !== valueOfNoFilter) return;
+    setFilter("all");
+    filterMoviesBySearch(searchInput);
+  }, [searchInput]);
 
   return (
     <>
@@ -93,7 +107,7 @@ function MoviesPage() {
               <MovieFilter
                 currentFilter={filter}
                 genres={genres}
-                filterMovies={filterMovies}
+                filterMovies={filterMoviesByGenre}
                 valueOfNoFilter={valueOfNoFilter}
               />
             </div>
@@ -106,7 +120,11 @@ function MoviesPage() {
               <MovieCount moviesCount={selectedMovies.length} />
             </p>
             <div className="movies-page__search">
-              <MovieSearch />
+              <MovieSearch
+                searchInput={searchInput}
+                setSearchInput={setSearchInput}
+                searchMovies={filterMoviesBySearch}
+              />
             </div>
             <div className="movie-table">
               <MovieTable
@@ -133,9 +151,12 @@ function MoviesPage() {
     </>
   );
 
+  function filterMoviesBySearch(search) {
+    setSelectedMovies(searchMovies(movies, search));
+  }
   // changes the selectedMovies to the result and the filter to the genre
   // if passed "all" it doesnt filter anything
-  function filterMovies(genre) {
+  function filterMoviesByGenre(genre) {
     if (genre === valueOfNoFilter) {
       setSelectedMovies(movies);
       setFilter(genre);
