@@ -71,11 +71,10 @@ function MoviesPage() {
   useEffect(() => {
     filterMoviesByGenre(filter);
     // if the user isnt using a real filter
-    if (filter === valueOfNoFilter)
-      // set selectedMovies(the ones showing) to the movies matching the search, if no search all movies are returned
-      filterMoviesBySearch(searchInput);
+    if (filter === valueOfNoFilter) filterMoviesBySearch(searchInput);
   }, [movies]);
 
+  // when filter changes filter the movies showing accordingly and reset the searchInput if the user changed the filter 
   useEffect(() => {
     if (filter !== valueOfNoFilter) {
       filterMoviesByGenre(filter);
@@ -88,13 +87,6 @@ function MoviesPage() {
   useEffect(() => {
     divideMovies();
   }, [selectedMovies]);
-
-  useEffect(() => {
-    // if the hook was activated because the useEffect hook for the filter reseted it then stop
-    if (searchInput === "" && filter !== valueOfNoFilter) return;
-    setFilter("all");
-    filterMoviesBySearch(searchInput);
-  }, [searchInput]);
 
   return (
     <>
@@ -123,7 +115,6 @@ function MoviesPage() {
             <div className="movies-page__search">
               <MovieSearch
                 searchInput={searchInput}
-                setSearchInput={setSearchInput}
                 searchMovies={filterMoviesBySearch}
               />
             </div>
@@ -152,8 +143,11 @@ function MoviesPage() {
     </>
   );
 
+  // set selectedMovies(the ones showing) to the movies matching the search, if no search all movies are returned
   function filterMoviesBySearch(search) {
+    setFilter("all");
     setSelectedMovies(searchMovies(movies, search));
+    setSearchInput(search);
   }
   // changes the selectedMovies to the result and the filter to the genre
   // if passed "all" it doesnt filter anything
