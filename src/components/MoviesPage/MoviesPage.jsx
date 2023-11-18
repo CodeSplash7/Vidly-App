@@ -7,6 +7,9 @@ import MovieSearch from "./MovieSearch";
 import MovieTable from "./MovieTable";
 import MoviePagination from "./MoviePagination";
 
+// helper functions
+import { searchMovies } from "../../helperFunctions.js";
+
 // services
 import http from "../../services/httpService.js";
 
@@ -30,6 +33,7 @@ function MoviesPage() {
   let [valueOfNoFilter] = useState("all");
   // filters the movies by the genre, "all" meaning no filter
   let [filter, setFilter] = useState(valueOfNoFilter);
+  let [searchInput, setSearchInput] = useState("");
 
   // "template" for the table
   let [tableColumns] = useState([
@@ -64,6 +68,11 @@ function MoviesPage() {
   // filter the selectedMovies by the state variable of filter
   useEffect(() => {
     filterMovies(filter);
+    // if the user isnt using a real filter
+    if (filter === valueOfNoFilter) {
+      // setSelectedMovie(the ones showing) to the movies mathing the search, if no search all movies are returned
+      setSelectedMovies(searchMovies(movies, searchInput));
+    }
   }, [movies]);
 
   // separate the movies into divisions
