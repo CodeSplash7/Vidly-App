@@ -149,6 +149,7 @@ function MoviesPage() {
     </>
   );
 
+  // set selectedMovies state variable to the sorted and filtered/searched movies array
   function selectMovies() {
     let newSelectedMovies;
     newSelectedMovies = filterMoviesByGenre(filter);
@@ -156,6 +157,7 @@ function MoviesPage() {
     setSelectedMovies(newSelectedMovies);
   }
 
+  // sorts the array given by the sorting object given
   function sortMovies(moviesToSort, sortingGiven) {
     let { property, order } = sortingGiven;
     if (moviesToSort.length == 0) return;

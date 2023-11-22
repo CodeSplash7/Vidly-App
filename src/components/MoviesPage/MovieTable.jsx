@@ -15,19 +15,23 @@ function MovieTableHead({ columns }) {
   return (
     <>
       <div className="movie-table__head">
-        {columns.map((column) => (
-          <div
-            key={column.id}
-            className="movie-table__cell movie-table__cell--head"
-          >
-            {
-              // if the cell is for a value
-              column.type === "value" && (
-                <HeadColumnValue columnContent={column.content} />
-              )
-            }
-          </div>
-        ))}
+        {
+          // loop through the head cells/columns
+          columns.map((column) => (
+            <div
+              key={column.id}
+              className="movie-table__cell movie-table__cell--head"
+            >
+              {
+                // if the cell is for a value
+                column.type === "value" && (
+                  <HeadColumnValue columnContent={column.content} />
+                )
+                // if the cell is for something else(e.g. bonus) it won't return anything, yet because there is no need for that
+              }
+            </div>
+          ))
+        }
       </div>
     </>
   );
@@ -154,6 +158,7 @@ function DeleteMovie({ movie }) {
 function SortButton({ currentSorting, property }) {
   return (
     <>
+      {/* div wrapping sort icon, that's the button */}
       <div
         className={`movie-table__sort-btn 
           ${
@@ -163,6 +168,7 @@ function SortButton({ currentSorting, property }) {
           } 
           `}
       >
+      {/* sort icon */}
         <svg
           className={`movie-table__sort-icon 
             ${
@@ -190,13 +196,17 @@ function SortButton({ currentSorting, property }) {
 }
 
 function HeadColumnValue({ columnContent }) {
+  // get the context from the MoviesPage.jsx
   let {
     sorting: { handleSorting, currentSorting }
   } = useMovieHandlersContext();
+
   // order values array
   let orders = ["asc", "desc"];
+
   return (
     <>
+    {/* div containing the sort button and the head cell text */}
       <div onClick={sortMovies} className="movie-table__column-head">
         <div className="movie-table__column-head-value">
           {capitalize(columnContent)}
