@@ -6,9 +6,10 @@
         "title": "Movie1",
         "genreId": 2,
         "rating": 8,
-        "stock": 4
+        "stock": 4,
+        "genre": "comedy"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 2,
@@ -16,9 +17,10 @@
         "title": "Movie2",
         "genreId": 2,
         "rating": 8,
-        "stock": 4
+        "stock": 4,
+        "genre": "comedy"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 3,
@@ -36,9 +38,10 @@
         "title": "Movie4",
         "genreId": 4,
         "rating": 9,
-        "stock": 5
+        "stock": 5,
+        "genre": "thriller"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 5,
@@ -66,9 +69,10 @@
         "title": "Movie7",
         "genreId": 2,
         "rating": 10,
-        "stock": 6
+        "stock": 6,
+        "genre": "comedy"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 8,
@@ -86,9 +90,10 @@
         "title": "Movie9",
         "genreId": 4,
         "rating": 8,
-        "stock": 4
+        "stock": 4,
+        "genre": "thriller"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 10,
@@ -106,7 +111,8 @@
         "title": "Movie11",
         "genreId": 3,
         "rating": 7,
-        "stock": 3
+        "stock": 3,
+        "genre": "horror"
       },
       "liked": false
     },
@@ -116,9 +122,10 @@
         "title": "Movie12",
         "genreId": 4,
         "rating": 9,
-        "stock": 5
+        "stock": 5,
+        "genre": "thriller"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 13,
@@ -136,9 +143,10 @@
         "title": "Movie14",
         "genreId": 2,
         "rating": 8,
-        "stock": 4
+        "stock": 4,
+        "genre": "comedy"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 15,
@@ -156,9 +164,10 @@
         "title": "Movie16",
         "genreId": 4,
         "rating": 10,
-        "stock": 6
+        "stock": 6,
+        "genre": "thriller"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 17,
@@ -186,9 +195,10 @@
         "title": "Movie19",
         "genreId": 3,
         "rating": 8,
-        "stock": 4
+        "stock": 4,
+        "genre": "horror"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 20,
@@ -206,9 +216,10 @@
         "title": "Movie21",
         "genreId": 1,
         "rating": 9,
-        "stock": 5
+        "stock": 5,
+        "genre": "action"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 22,
@@ -246,9 +257,10 @@
         "title": "Movie25",
         "genreId": 1,
         "rating": 10,
-        "stock": 6
+        "stock": 6,
+        "genre": "action"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 26,
@@ -266,9 +278,10 @@
         "title": "Movie27",
         "genreId": 3,
         "rating": 8,
-        "stock": 4
+        "stock": 4,
+        "genre": "horror"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 28,
@@ -286,9 +299,10 @@
         "title": "Movie29",
         "genreId": 1,
         "rating": 9,
-        "stock": 5
+        "stock": 5,
+        "genre": "action"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 30,
@@ -326,9 +340,10 @@
         "title": "Movie33",
         "genreId": 1,
         "rating": 10,
-        "stock": 6
+        "stock": 6,
+        "genre": "action"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 34,
@@ -346,9 +361,10 @@
         "title": "Movie35",
         "genreId": 3,
         "rating": 8,
-        "stock": 4
+        "stock": 4,
+        "genre": "horror"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 36,
@@ -366,9 +382,10 @@
         "title": "Movie37",
         "genreId": 1,
         "rating": 9,
-        "stock": 5
+        "stock": 5,
+        "genre": "action"
       },
-      "liked": true
+      "liked": false
     }
   ],
   "genres": [

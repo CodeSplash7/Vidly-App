@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   createRoutesFromElements,
   createBrowserRouter,
@@ -22,9 +24,9 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <>
+    <React.StrictMode>
       <RouterProvider router={router} />
-    </>
+    </React.StrictMode>
   );
 }
 

@@ -36,14 +36,16 @@ function MoviesPage() {
   let [filter, setFilter] = useState(valueOfNoFilter);
   // filters the movies by the title, the value of this variable changes the selectedMovies
   let [searchInput, setSearchInput] = useState("");
+  // the movies are orderd in the order and by the property of this objects
+  let [sorting, setSorting] = useState({ property: "title", order: "asc" });
 
   // "template" for the table
   let [tableColumns] = useState([
-    { type: "value", content: "title" },
-    { type: "value", content: "genre" },
-    { type: "value", content: "stock" },
-    { type: "value", content: "rating" },
-    { type: "bonus", for: "buttons", contents: ["like", "delete"] }
+    { id: 1, type: "value", content: "title" },
+    { id: 2, type: "value", content: "genre" },
+    { id: 3, type: "value", content: "stock" },
+    { id: 4, type: "value", content: "rating" },
+    { id: 5, type: "bonus", for: "buttons", contents: ["like", "delete"] }
   ]);
 
   // fetch data on mount
@@ -67,17 +69,17 @@ function MoviesPage() {
     getGenrePropertyForMovies();
   }, [genres]);
 
-  // filter the selectedMovies by the state variable of filter
+  // select the movies when movies changes or if sorting changes
   useEffect(() => {
-    filterMoviesByGenre(filter);
-    // if the user isnt using a real filter
+    selectMovies();
+    // if the user isnt using a real filter(like "all" filter)
     if (filter === valueOfNoFilter) filterMoviesBySearch(searchInput);
-  }, [movies]);
+  }, [movies, sorting]);
 
-  // when filter changes filter the movies showing accordingly and reset the searchInput if the user changed the filter 
+  // when filter changes filter the movies showing accordingly and reset the searchInput if the user changed the filter
   useEffect(() => {
     if (filter !== valueOfNoFilter) {
-      filterMoviesByGenre(filter);
+      selectMovies();
       setSearchInput("");
     }
   }, [filter]);
@@ -91,7 +93,11 @@ function MoviesPage() {
   return (
     <>
       <MovieHandlersContext.Provider
-        value={{ handleLikeMovie, handleDeleteMovie }}
+        value={{
+          handleLikeMovie,
+          handleDeleteMovie,
+          sorting: { handleSorting: setSorting, currentSorting: sorting }
+        }}
       >
         <div className="movies-page content-page">
           <div className="movies-page__section--left">
@@ -143,6 +149,34 @@ function MoviesPage() {
     </>
   );
 
+  function selectMovies() {
+    let newSelectedMovies;
+    newSelectedMovies = filterMoviesByGenre(filter);
+    newSelectedMovies = sortMovies(newSelectedMovies, sorting);
+    setSelectedMovies(newSelectedMovies);
+  }
+
+  function sortMovies(moviesToSort, sortingGiven) {
+    let { property, order } = sortingGiven;
+    if (moviesToSort.length == 0) return;
+    let sortedMovies = moviesToSort.sort((a, b) => {
+      a = a.data[property];
+      b = b.data[property];
+      // if a comes before b, return a positive number
+      if (a < b) {
+        return order === "asc" ? -1 : 1;
+      }
+      // if a comes after b, return a negative number
+      if (a > b) {
+        return order === "asc" ? 1 : -1;
+      }
+      // if a and b are equal, return 0
+      return 0;
+    });
+    setSorting(sortingGiven);
+    return sortedMovies;
+  }
+
   // set selectedMovies(the ones showing) to the movies matching the search, if no search all movies are returned
   function filterMoviesBySearch(search) {
     setFilter("all");
@@ -155,11 +189,11 @@ function MoviesPage() {
     if (genre === valueOfNoFilter) {
       setSelectedMovies(movies);
       setFilter(genre);
-      return;
+      return movies;
     }
     let filtered = movies.filter((movie) => movie.data.genre === genre);
-    setSelectedMovies(filtered);
     setFilter(genre);
+    return filtered;
   }
 
   // returns the movies that correspond to the currentDivision from the state

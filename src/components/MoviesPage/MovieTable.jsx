@@ -15,27 +15,19 @@ function MovieTableHead({ columns }) {
   return (
     <>
       <div className="movie-table__head">
-        {columns.map((column, i) => {
-          // if the cell is for a value
-          if (column.type === "value")
-            return (
-              <div
-                className="movie-table__cell movie-table__cell--head"
-                key={i}
-              >
-                {capitalize(column.content)}
-              </div>
-            );
-
-          // if the cell is for empty space for buttons in the body
-          if (column.type === "bonus")
-            return (
-              <div
-                className="movie-table__cell movie-table__cell--head"
-                key={i}
-              ></div>
-            );
-        })}
+        {columns.map((column) => (
+          <div
+            key={column.id}
+            className="movie-table__cell movie-table__cell--head"
+          >
+            {
+              // if the cell is for a value
+              column.type === "value" && (
+                <HeadColumnValue columnContent={column.content} />
+              )
+            }
+          </div>
+        ))}
       </div>
     </>
   );
@@ -157,4 +149,72 @@ function DeleteMovie({ movie }) {
       </button>
     </>
   );
+}
+
+function SortButton({ currentSorting, property }) {
+  return (
+    <>
+      <div
+        className={`movie-table__sort-btn 
+          ${
+            currentSorting.property === property
+              ? ""
+              : "movie-table__sort-btn--invisible"
+          } 
+          `}
+      >
+        <svg
+          className={`movie-table__sort-icon 
+            ${
+              currentSorting.order === "asc"
+                ? "movie-table__sort-icon--asc"
+                : "movie-table__sort-icon--desc"
+            }
+          `}
+          xmlns="http://www.w3.org/2000/svg"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <line x1="12" y1="19" x2="12" y2="5" />
+          <polyline points="5 12 12 5 19 12" />
+        </svg>
+      </div>
+    </>
+  );
+}
+
+function HeadColumnValue({ columnContent }) {
+  let {
+    sorting: { handleSorting, currentSorting }
+  } = useMovieHandlersContext();
+  // order values array
+  let orders = ["asc", "desc"];
+  return (
+    <>
+      <div onClick={sortMovies} className="movie-table__column-head">
+        <div className="movie-table__column-head-value">
+          {capitalize(columnContent)}
+        </div>
+        <SortButton currentSorting={currentSorting} property={columnContent} />
+      </div>
+    </>
+  );
+
+  // change the sorting values right from the state
+  function sortMovies() {
+    let order = "asc";
+    if (currentSorting.property !== columnContent) {
+      handleSorting({ property: columnContent, order });
+      return;
+    }
+    if (orders.indexOf(currentSorting.order)) order = "asc";
+    else order = "desc";
+    handleSorting({ property: columnContent, order });
+  }
 }

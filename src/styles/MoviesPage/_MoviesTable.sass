@@ -24,6 +24,25 @@
   &__cell--head
     @apply font-[600]
 
+  &__column-head
+    @apply flex gap-[5px]
+
+  &__column-head-value
+
+  &__sort-btn
+    @apply flex justify-center items-start transition-opacity duration-150
+
+  &__sort-btn--invisible
+    @apply opacity-0
+
+  &__sort-icon
+    @apply transition-transform duration-150
+
+  &__sort-icon--asc
+
+  &__sort-icon--desc
+    @apply rotate-180
+
   &__like
     @apply w-fit h-fit flex flex-col px-[20px] justify-center items-center
 
