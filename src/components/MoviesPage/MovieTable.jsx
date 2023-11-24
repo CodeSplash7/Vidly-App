@@ -5,8 +5,10 @@ import { capitalize } from "../../helperFunctions.js";
 export default function MovieTable({ movies, tableColumns }) {
   return (
     <>
-      <MovieTableHead columns={tableColumns} />
-      <MovieTableBody movies={movies} columns={tableColumns} />
+      <div className="w-full h-fit flex flex-col">
+        <MovieTableHead columns={tableColumns} />
+        <MovieTableBody movies={movies} columns={tableColumns} />
+      </div>
     </>
   );
 }
@@ -14,13 +16,13 @@ export default function MovieTable({ movies, tableColumns }) {
 function MovieTableHead({ columns }) {
   return (
     <>
-      <div className="movie-table__head">
+      <div className="w-full h-fit flex flex-row px-[32px] py-[10px] bg-gray rounded-t-[10px]">
         {
           // loop through the head cells/columns
           columns.map((column) => (
             <div
               key={column.id}
-              className="movie-table__cell movie-table__cell--head"
+              className="w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px] font-[600]"
             >
               {
                 // if the cell is for a value
@@ -42,7 +44,7 @@ function MovieTableBody({ movies, columns }) {
 
   return (
     <>
-      <div className="movie-table__body">
+      <div className="w-full h-fit">
         {movies.map((movie, i) => {
           return (
             <MovieTableBodyRow
@@ -65,8 +67,8 @@ function MovieTableBodyRow({ movie, columns, invisible }) {
   return (
     <>
       <div
-        className={`movie-table__body-row ${
-          invisible ? "movie-table__body-row--invisible" : ""
+        className={`w-full h-fit px-[32px] py-[10px] flex ${
+          invisible ? "[visibility:hidden]" : ""
         }`}
       >
         {columns.map((column, i) => {
@@ -74,7 +76,7 @@ function MovieTableBodyRow({ movie, columns, invisible }) {
           if (column.type === "value")
             return (
               <div
-                className="movie-table__cell movie-table__cell--body"
+                className="w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px] font-[250] h-full first:text-blue first:underline"
                 key={i}
               >
                 {movie.data[column.content]}
@@ -86,7 +88,7 @@ function MovieTableBodyRow({ movie, columns, invisible }) {
             return (
               <div
                 key={i}
-                className="movie-table__cell movie-table__cell--body"
+                className="w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px] font-[250] h-full first:text-blue first:underline"
               >
                 <ButtonsCell contents={column.contents} movie={movie} />
               </div>
@@ -123,9 +125,7 @@ function LikeMovie({ movie }) {
           movie.liked = !movie.liked;
           handleLikeMovie(movie);
         }}
-        className={`movie-table__like ${
-          movie.liked ? "movie-table__like--active" : ""
-        }`}
+        className={`group w-fit h-fit flex flex-col px-[20px] justify-center items-center`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -133,6 +133,9 @@ function LikeMovie({ movie }) {
           stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
+          className={`group-hover:stroke-red duration-150 transition-[fill,stroke] w-[21px] stroke-[1px] stroke-white fill-[#ffffff00] ${
+            movie.liked ? "stroke-red fill-red" : ""
+          }`}
         >
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
         </svg>
@@ -147,7 +150,7 @@ function DeleteMovie({ movie }) {
     <>
       <button
         onClick={() => handleDeleteMovie(movie)}
-        className="movie-table__delete"
+        className="hover:bg-[#9C2140] duration-150 transition-[background] w-[72px] h-[30px] rounded-[8px] px-[12px] py-[6px] bg-red text-[15px] text-white flex justify-center items-center"
       >
         delete
       </button>
@@ -160,22 +163,14 @@ function SortButton({ currentSorting, property }) {
     <>
       {/* div wrapping sort icon, that's the button */}
       <div
-        className={`movie-table__sort-btn 
-          ${
-            currentSorting.property === property
-              ? ""
-              : "movie-table__sort-btn--invisible"
-          } 
+        className={`flex justify-center items-start transition-opacity duration-150 
+          ${currentSorting.property === property ? "" : "opacity-0"} 
           `}
       >
-      {/* sort icon */}
+        {/* sort icon */}
         <svg
-          className={`movie-table__sort-icon 
-            ${
-              currentSorting.order === "asc"
-                ? "movie-table__sort-icon--asc"
-                : "movie-table__sort-icon--desc"
-            }
+          className={`transition-transform duration-150 
+            ${currentSorting.order === "asc" ? "" : "rotate-180"}
           `}
           xmlns="http://www.w3.org/2000/svg"
           width="12"
@@ -206,11 +201,9 @@ function HeadColumnValue({ columnContent }) {
 
   return (
     <>
-    {/* div containing the sort button and the head cell text */}
-      <div onClick={sortMovies} className="movie-table__column-head">
-        <div className="movie-table__column-head-value">
-          {capitalize(columnContent)}
-        </div>
+      {/* div containing the sort button and the head cell text */}
+      <div onClick={sortMovies} className="flex gap-[5px]">
+        <div className="">{capitalize(columnContent)}</div>
         <SortButton currentSorting={currentSorting} property={columnContent} />
       </div>
     </>

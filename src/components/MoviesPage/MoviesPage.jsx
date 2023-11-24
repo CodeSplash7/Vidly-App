@@ -99,50 +99,38 @@ function MoviesPage() {
           sorting: { handleSorting: setSorting, currentSorting: sorting }
         }}
       >
-        <div className="movies-page content-page">
-          <div className="movies-page__section--left">
-            <h2 className="movies-page__title">Movies</h2>
-            <div className="movies-page__filter">
-              <MovieFilter
-                currentFilter={filter}
-                genres={genres}
-                filterMovies={filterMoviesByGenre}
-                valueOfNoFilter={valueOfNoFilter}
-              />
-            </div>
-            <button className="movies-page__new-movie-button">
-              New Movies
-            </button>
+        <div className="w-full h-fit flex px-16 justify-start items-start gap-8">
+          <div className="w-[152px] h-full gap-[32px]">
+            <h2 className="">Movies</h2>
+            <MovieFilter
+              currentFilter={filter}
+              genres={genres}
+              filterMovies={filterMoviesByGenre}
+              valueOfNoFilter={valueOfNoFilter}
+            />
+            <button className="">New Movies</button>
           </div>
-          <div className="movies-page__section--right">
-            <p className="movies-page__count">
-              <MovieCount moviesCount={selectedMovies.length} />
-            </p>
-            <div className="movies-page__search">
-              <MovieSearch
-                searchInput={searchInput}
-                searchMovies={filterMoviesBySearch}
-              />
-            </div>
-            <div className="movie-table">
-              <MovieTable
-                movies={getCurrentDivisionContent()}
-                tableColumns={tableColumns}
-              />
-            </div>
-            <div className="movies-page__pagination">
-              <MoviePagination
-                pages={
-                  divisions.length > 0 && divisions[0].length > 0
-                    ? divisions.length
-                    : 0
-                }
-                currentPage={{
-                  currentPage: currentDivision,
-                  setCurrentPage: setCurrentDivision
-                }}
-              />
-            </div>
+          <div className="w-full h-fit flex flex-col gap-[24px] p-[16px] rounded-[10px] bg-black">
+            <MovieCount moviesCount={selectedMovies.length} />
+            <MovieSearch
+              searchInput={searchInput}
+              searchMovies={filterMoviesBySearch}
+            />
+            <MovieTable
+              movies={getCurrentDivisionContent()}
+              tableColumns={tableColumns}
+            />
+            <MoviePagination
+              pages={
+                divisions.length > 0 && divisions[0].length > 0
+                  ? divisions.length
+                  : 0
+              }
+              currentPage={{
+                currentPage: currentDivision,
+                setCurrentPage: setCurrentDivision
+              }}
+            />
           </div>
         </div>
       </MovieHandlersContext.Provider>

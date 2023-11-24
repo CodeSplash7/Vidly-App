@@ -9,9 +9,9 @@ function MoviePagination({
     buttons.push(
       <button
         key={i}
-        className={`movies-page__pagination-btn ${
-          currentPage == i ? "movies-page__pagination-btn--active" : ""
-        }`}
+        className={`hover:border-blue w-[50px] h-[50px] duration-150 transition-[border,background] flex justify-center items-center border-[#0000] border-[1px] ${
+          currentPage == i ? "bg-blue" : "bg-gray"
+        }  text-white text-[15px]`}
         onClick={() => setCurrentPage(i)}
       >
         {i}
@@ -19,7 +19,11 @@ function MoviePagination({
     );
   }
   // display the buttons
-  return <>{buttons}</>;
+  return (
+    <>
+      <div className="w-fit h-fit flex gap-[3px]">{buttons}</div>;
+    </>
+  );
 }
 
 export default MoviePagination;
