@@ -12,6 +12,7 @@ import { searchMovies } from "../../helperFunctions.js";
 
 // services
 import http from "../../services/httpService.js";
+import { useNavigate } from "react-router-dom";
 
 // context for the access of the movie handlers in this component
 let MovieHandlersContext = createContext();
@@ -38,6 +39,8 @@ function MoviesPage() {
   let [searchInput, setSearchInput] = useState("");
   // the movies are orderd in the order and by the property of this objects
   let [sorting, setSorting] = useState({ property: "title", order: "asc" });
+
+  const navigate = useNavigate();
 
   // "template" for the table
   let [tableColumns] = useState([
@@ -100,15 +103,21 @@ function MoviesPage() {
         }}
       >
         <div className="w-full h-fit flex px-16 justify-start items-start gap-8">
-          <div className="w-[152px] h-full gap-[32px]">
-            <h2 className="">Movies</h2>
+          <div className="w-[152px] h-full flex flex-col gap-[32px]">
+            <h2 className="text-[26px] text-white font-semibold">Movies</h2>
             <MovieFilter
               currentFilter={filter}
               genres={genres}
               filterMovies={filterMoviesByGenre}
               valueOfNoFilter={valueOfNoFilter}
             />
-            <button className="">New Movies</button>
+            <button
+              className="transition transition:background duration-150 hover:bg-[#2B6E9D]
+            w-full rounded-[10px] flex justify-center text-white text-[15px] px-[20px] py-[10px] bg-blue "
+              onClick={() => navigate("/movies/new")}
+            >
+              New Movies
+            </button>
           </div>
           <div className="w-full h-fit flex flex-col gap-[24px] p-[16px] rounded-[10px] bg-black">
             <MovieCount moviesCount={selectedMovies.length} />
