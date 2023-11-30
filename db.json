@@ -80,7 +80,8 @@
         "title": "Movie8",
         "genreId": 1,
         "rating": 3,
-        "stock": 0
+        "stock": 0,
+        "genre": "action"
       },
       "liked": false
     },

@@ -7,8 +7,9 @@ import {
   RouterProvider
 } from "react-router-dom";
 
-// components
+// page components
 import MoviesPage from "./components/MoviesPage/MoviesPage.jsx";
+import MovieFormPage from "./components/MovieFormPage/MovieFormPage.jsx";
 
 //layouts
 import RootLayout from "./components/layouts/RootLayout.jsx";
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
       <Route path="movies" element={<MoviesPage />} />
+      <Route path="movies/new" element={<MovieFormPage />} />
     </Route>
   )
 );
