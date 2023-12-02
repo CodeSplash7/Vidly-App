@@ -61,7 +61,11 @@ export default function MovieFormPage() {
     <>
       <div>
         <p>Movie Form</p>
-        <Form submit={createMovie} schema={schema} inputs={inputs} />
+        <Form
+          submit={movie ? updateMovie : createMovie}
+          schema={schema}
+          inputs={inputs}
+        />
       </div>
     </>
   );
@@ -72,6 +76,14 @@ export default function MovieFormPage() {
     newMovie.liked = false;
     newMovie.data.genreId = getGenreIdForMovie(newMovie);
     http.post("movies", newMovie);
+  }
+
+  function updateMovie(movieData) {
+    let newMovie = {};
+    newMovie.data = movieData;
+    newMovie.liked = movie.liked;
+    newMovie.data.genreId = getGenreIdForMovie(newMovie);
+    http.patch(`movies/${movie.id}`, { ...movie, ...newMovie });
   }
 
   async function fetchGenresData() {
@@ -90,8 +102,9 @@ function Form({ submit, schema, inputs }) {
   let [dataToSubmit, setDataToSubmit] = useState({});
   let [errorMsg, setErrorMsg] = useState("");
 
+  let navigate = useNavigate();
+
   useEffect(() => {
-    // console.log("changed inputs");
     let validationObject = {};
     inputsState.forEach((input) => {
       validationObject[input.for] = input.value;
@@ -102,7 +115,7 @@ function Form({ submit, schema, inputs }) {
       return;
     }
     setErrorMsg("");
-    dataToSubmit = validationResults.value;
+    setDataToSubmit(validationResults.value);
   }, [inputsState]);
 
   return (
@@ -188,6 +201,7 @@ function Form({ submit, schema, inputs }) {
         onClick={() => {
           if (isEmptyObject(dataToSubmit)) return;
           else submit(dataToSubmit);
+          navigate("/movies");
         }}
       >
         Submit
