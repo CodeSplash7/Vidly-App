@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMovieHandlersContext } from "./MoviesPage.jsx";
 import { capitalize } from "../../helperFunctions.js";
+import { useNavigate } from "react-router-dom";
 
 export default function MovieTable({ movies, tableColumns }) {
   return (
@@ -64,6 +65,7 @@ function MovieTableBody({ movies, columns }) {
 }
 
 function MovieTableBodyRow({ movie, columns, invisible }) {
+  let navigate = useNavigate();
   return (
     <>
       <div
@@ -74,9 +76,19 @@ function MovieTableBodyRow({ movie, columns, invisible }) {
         {columns.map((column, i) => {
           // if the cell is on the column of value
           if (column.type === "value")
-            return (
+            return column.content.toLowerCase() === "title" ? (
               <div
-                className="w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px] font-[250] h-full first:text-blue first:underline"
+                onClick={() => {
+                  navigate(`${movie.id}`);
+                }}
+                className="w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px] font-[250] h-full text-blue underline hover:text-[#215477] transition-color duration-150"
+                key={i}
+              >
+                {movie.data[column.content]}
+              </div>
+            ) : (
+              <div
+                className="w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px] font-[250] h-full"
                 key={i}
               >
                 {movie.data[column.content]}

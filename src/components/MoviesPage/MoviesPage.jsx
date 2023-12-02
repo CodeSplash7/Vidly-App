@@ -12,7 +12,7 @@ import { searchMovies } from "../../helperFunctions.js";
 
 // services
 import http from "../../services/httpService.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 
 // context for the access of the movie handlers in this component
 let MovieHandlersContext = createContext();
@@ -307,4 +307,14 @@ export default MoviesPage;
 
 export function useMovieHandlersContext() {
   return useContext(MovieHandlersContext);
+}
+
+export async function loadMovie({ params: { id } }) {
+  let res;
+  try {
+    res = await http.get(`movies/${id}`);
+    return res.data;
+  } catch {
+    return null;
+  }
 }

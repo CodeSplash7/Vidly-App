@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import http from "../../services/httpService";
 import Joi from "joi";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 export default function MovieFormPage() {
+  let navigate = useNavigate();
   let [genres, setGenres] = useState([]);
   let [schema, setSchema] = useState(
     Joi.object({
       title: Joi.string().alphanum().min(3).max(30).required(),
       genre: Joi.string().alphanum().min(3).max(30).required(),
       stock: Joi.number().integer().min(1).max(100).required(),
-      rate: Joi.number().min(1).max(10).required()
+      rating: Joi.number().min(1).max(10).required()
     })
   );
+
+  let [movie] = useState(useLoaderData());
 
   let [inputs, setInputs] = useState([
     { for: "title", label: "Title", type: "text", value: "" },
@@ -23,12 +27,35 @@ export default function MovieFormPage() {
       value: "action"
     },
     { for: "stock", label: "Stock", type: "count", value: 0 },
-    { for: "rate", label: "Rate", type: "count", value: 0 }
+    { for: "rating", label: "Rating", type: "count", value: 0 }
   ]);
+  let [newInputs, setNewInputs] = useState([]);
+
+  useEffect(() => {
+    if (movie === null) {
+      navigate("/not-found");
+    }
+  }, [movie]);
 
   useEffect(() => {
     fetchGenresData();
   }, []);
+
+  useEffect(() => {
+    if (!movie) {
+      setNewInputs(inputs);
+      return;
+    }
+    let newInputs = Object.entries(movie.data)
+      .filter(([key, value]) => inputs.find((input) => input.for === key))
+      .map(([key, value]) => {
+        let newInput = inputs.find((input) => input.for === key);
+        newInput.value = value;
+        return newInput;
+      });
+
+    setNewInputs(newInputs);
+  }, [inputs]);
 
   return (
     <>
@@ -105,6 +132,7 @@ function Form({ submit, schema, inputs }) {
             <div key={i}>
               <label>{input.label}</label>
               <select
+                value={input.value}
                 onChange={(e) => {
                   newInput.value = e.target.value;
                   setInputsState(newInputs);
@@ -158,7 +186,7 @@ function Form({ submit, schema, inputs }) {
       })}
       <div
         onClick={() => {
-          if (isEmptyObject(dataToSubmit)) console.log("erros");
+          if (isEmptyObject(dataToSubmit)) return;
           else submit(dataToSubmit);
         }}
       >

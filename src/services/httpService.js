@@ -9,7 +9,9 @@ const instance = axios.create({
 
 // Runs on every response from the server
 instance.interceptors.response.use(null, (error) => {
-  console.log(error);
+  if (error.status === 404){
+    Promise.reject("not found")
+  }
 });
 
 export default {
