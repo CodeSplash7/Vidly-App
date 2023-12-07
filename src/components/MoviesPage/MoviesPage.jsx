@@ -9,6 +9,10 @@ import MoviePagination from "./MoviePagination";
 
 // helper functions
 import { searchMovies } from "../../helperFunctions.js";
+import {
+  localStorageJSONGet,
+  localStorageJSONSet
+} from "../../helperFunctions.js";
 
 // services
 import http from "../../services/httpService.js";
@@ -18,17 +22,19 @@ import { useNavigate, useLoaderData } from "react-router-dom";
 let MovieHandlersContext = createContext();
 
 function MoviesPage() {
-  // state
+  // State
+  let [loaderData] = useState();
   // the number of movies per division
   let [divisionLength, setDivisionLength] = useState(4);
   // the index of the current division to display but +1 to make sense
   let [currentDivision, setCurrentDivision] = useState(1);
   // all of the movies fetched from the database
-  let [movies, setMovies] = useState([]);
+  let [movies, setMovies] = useState(localStorageJSONGet("movies"));
+
   // the movies that have been filtered/selected to be shown in the table
   let [selectedMovies, setSelectedMovies] = useState([]);
   // array of genre objects
-  let [genres, setGenres] = useState([]);
+  let [genres, setGenres] = useState(localStorageJSONGet("genres"));
   // groups for the movies
   let [divisions, setDivisions] = useState([]);
   // this is used for filtering genres and no filter is added
@@ -51,25 +57,20 @@ function MoviesPage() {
     { id: 5, type: "bonus", for: "buttons", contents: ["like", "delete"] }
   ]);
 
-  // fetch data on mount
   useEffect(() => {
-    async function fetchMoviesData() {
-      const response = await http.get("movies");
-      setMovies(response.data);
-    }
-    async function fetchGenresData() {
-      const response = await http.get("genres");
-      setGenres(response.data);
-    }
-
-    fetchMoviesData();
-    fetchGenresData();
+    loaderData = loadMoviesGenres();
+    loaderData.then(([movies, genres]) => {
+      setMovies(movies);
+      setGenres(genres);
+    });
   }, []);
 
   // transform the genre for all movies
-  // generate genre property from the genreId property of movies
+  // generate genre property from the genreId property of movies &&
+  // set genres for local storage
   useEffect(() => {
     getGenrePropertyForMovies();
+    localStorageJSONSet("genres", genres);
   }, [genres]);
 
   // select the movies when movies changes or if sorting changes
@@ -78,6 +79,11 @@ function MoviesPage() {
     // if the user isnt using a real filter(like "all" filter)
     if (filter === valueOfNoFilter) filterMoviesBySearch(searchInput);
   }, [movies, sorting]);
+
+  // store movies in local storage
+  useEffect(() => {
+    localStorageJSONSet("movies", movies);
+  }, [movies]);
 
   // when filter changes filter the movies showing accordingly and reset the searchInput if the user changed the filter
   useEffect(() => {
@@ -280,6 +286,7 @@ function MoviesPage() {
 
     try {
       http.patch(`movies/${movie.id}`, movie);
+      localStorageJSONSet("movies", movies);
     } catch (err) {
       // if an error occurs then reset the values
       setMovies(previousMovies);
@@ -295,6 +302,7 @@ function MoviesPage() {
 
     try {
       http.delete(`movies/${movie.id}`);
+      localStorageJSONSet("movies", newMovies);
     } catch (err) {
       // if an error occurs then reset the values
       setMovies(previousMovies);
@@ -312,9 +320,50 @@ export function useMovieHandlersContext() {
 export async function loadMovie({ params: { id } }) {
   let res;
   try {
-    res = await http.get(`movies/${id}`);
-    return res.data;
+    res = localStorageJSONGet("movies").find((movie) => movie.id == id);
+    return res;
   } catch {
+    return null;
+  }
+}
+
+export function loadMoviesGenres() {
+  let movies;
+  let genres;
+  let res;
+  try {
+    // movies = http.get("movies").then((res) => res.data);
+    movies = http.get("movies").then((res) => res.data);
+    genres = http.get("genres").then((res) => res.data);
+    return Promise.all([movies, genres]);
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+export async function loadMovies() {
+  let movies;
+  let res;
+  try {
+    res = await http.get("movies");
+    movies = res.data;
+    return movies;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+export async function loadGenres() {
+  let genres;
+  let res;
+  try {
+    res = await http.get("genres");
+    genres = res.data;
+    return genres;
+  } catch (err) {
+    console.log(err);
     return null;
   }
 }

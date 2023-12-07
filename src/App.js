@@ -16,15 +16,24 @@ import RootLayout from "./components/layouts/RootLayout.jsx";
 
 //loaders
 import { loadMovie } from "./components/MoviesPage/MoviesPage.jsx";
+import {
+  loadMoviesGenres,
+  loadMovies,
+  loadGenres
+} from "./components/MoviesPage/MoviesPage.jsx";
 
 // creating the router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
-      <Route path="movies" element={<MoviesPage />} />
+      <Route
+        path="movies"
+        element={<MoviesPage />}
+        fallback={<h1 className="bg-black">Hello</h1>}
+      />
       <Route path="movies/:id" element={<MovieFormPage />} loader={loadMovie} />
       <Route path="movies/new" element={<MovieFormPage />} />
-      <Route path="not-found" element={<h1>Not found</h1>}/>
+      <Route path="not-found" element={<h1>Not found</h1>} />
     </Route>
   )
 );

@@ -147,7 +147,7 @@
         "stock": 6,
         "genre": "thriller"
       },
-      "liked": true
+      "liked": false
     },
     {
       "id": 17,
@@ -382,7 +382,7 @@
       "data": {
         "title": "Movie1",
         "genre": "comedy",
-        "stock": 4,
+        "stock": 90,
         "rating": 8,
         "genreId": 2
       },

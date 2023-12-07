@@ -81,7 +81,7 @@ function MovieTableBodyRow({ movie, columns, invisible }) {
                 onClick={() => {
                   navigate(`${movie.id}`);
                 }}
-                className="w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px] font-[250] h-full text-blue underline hover:text-[#215477] transition-color duration-150"
+                className="w-full h-fit text-[15px] text-[#d6d6d6] flex gap-[16px] font-[250] h-full text-blue underline hover:text-[#215477] transition-color duration-"
                 key={i}
               >
                 {movie.data[column.content]}

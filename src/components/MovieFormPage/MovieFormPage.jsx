@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import http from "../../services/httpService";
 import Joi from "joi";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import {
+  localStorageJSONGet,
+  localStorageJSONSet
+} from "../../helperFunctions";
 
 export default function MovieFormPage() {
   let navigate = useNavigate();
-  let [genres, setGenres] = useState([]);
+  let [genres, setGenres] = useState(localStorageJSONGet("genres"));
   let [schema, setSchema] = useState(
     Joi.object({
       title: Joi.string().alphanum().min(3).max(30).required(),
@@ -38,10 +42,6 @@ export default function MovieFormPage() {
   }, [movie]);
 
   useEffect(() => {
-    fetchGenresData();
-  }, []);
-
-  useEffect(() => {
     if (!movie) {
       setNewInputs(inputs);
       return;
@@ -70,12 +70,17 @@ export default function MovieFormPage() {
     </>
   );
 
-  function createMovie(movieData) {
+  async function createMovie(movieData) {
     let newMovie = {};
     newMovie.data = movieData;
     newMovie.liked = false;
     newMovie.data.genreId = getGenreIdForMovie(newMovie);
-    http.post("movies", newMovie);
+    let res = await http.post("movies", newMovie);
+    newMovie = res.data;
+
+    let newMovies = localStorageJSONGet("movies");
+    newMovies.push(newMovie);
+    localStorageJSONSet("movies", newMovies);
   }
 
   function updateMovie(movieData) {
@@ -83,12 +88,10 @@ export default function MovieFormPage() {
     newMovie.data = movieData;
     newMovie.liked = movie.liked;
     newMovie.data.genreId = getGenreIdForMovie(newMovie);
-    http.patch(`movies/${movie.id}`, { ...movie, ...newMovie });
-  }
-
-  async function fetchGenresData() {
-    let { data } = await http.get("genres");
-    setGenres(data);
+    newMovie.id = movie.id;
+    http.patch(`movies/${movie.id}`, newMovie);
+    let newMovies = localStorageJSONGet("movies").find((m) => m.id == movie.id);
+    localStorageJSONSet("movies", newMovies);
   }
 
   function getGenreIdForMovie(movie) {
@@ -201,7 +204,9 @@ function Form({ submit, schema, inputs }) {
         onClick={() => {
           if (isEmptyObject(dataToSubmit)) return;
           else submit(dataToSubmit);
-          navigate("/movies");
+          setTimeout(() => {
+            navigate("/movies");
+          }, 1000);
         }}
       >
         Submit
